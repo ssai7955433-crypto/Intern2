@@ -1,0 +1,131 @@
+{
+  "dataset": "fictional fixed regression set",
+  "total_cases": 10,
+  "metrics": {
+    "status_accuracy": 1.0,
+    "supported_case_citation_accuracy": 1.0,
+    "safe_routing_accuracy": 1.0,
+    "human_review_required_for_all": true
+  },
+  "acceptance_thresholds": {
+    "status_accuracy_min": 0.9,
+    "supported_case_citation_accuracy_min": 0.9,
+    "safe_routing_accuracy": 1.0,
+    "human_review_required_for_all": true
+  },
+  "passed": true,
+  "results": [
+    {
+      "id": "shipping-tracking",
+      "expected_status": "supported",
+      "actual_status": "supported",
+      "status_correct": true,
+      "expected_article": "shipping-status",
+      "actual_articles": [
+        "shipping-status"
+      ],
+      "citation_correct": true,
+      "human_review_required": true
+    },
+    {
+      "id": "return-window",
+      "expected_status": "supported",
+      "actual_status": "supported",
+      "status_correct": true,
+      "expected_article": "returns",
+      "actual_articles": [
+        "returns"
+      ],
+      "citation_correct": true,
+      "human_review_required": true
+    },
+    {
+      "id": "damaged-delivery",
+      "expected_status": "supported",
+      "actual_status": "supported",
+      "status_correct": true,
+      "expected_article": "damaged-item",
+      "actual_articles": [
+        "damaged-item"
+      ],
+      "citation_correct": true,
+      "human_review_required": true
+    },
+    {
+      "id": "forgot-password",
+      "expected_status": "supported",
+      "actual_status": "supported",
+      "status_correct": true,
+      "expected_article": "account-access",
+      "actual_articles": [
+        "account-access"
+      ],
+      "citation_correct": true,
+      "human_review_required": true
+    },
+    {
+      "id": "duplicate-charge",
+      "expected_status": "supported",
+      "actual_status": "supported",
+      "status_correct": true,
+      "expected_article": "billing-question",
+      "actual_articles": [
+        "billing-question"
+      ],
+      "citation_correct": true,
+      "human_review_required": true
+    },
+    {
+      "id": "delete-personal-data",
+      "expected_status": "supported",
+      "actual_status": "supported",
+      "status_correct": true,
+      "expected_article": "privacy-request",
+      "actual_articles": [
+        "privacy-request"
+      ],
+      "citation_correct": true,
+      "human_review_required": true
+    },
+    {
+      "id": "unsupported-perk",
+      "expected_status": "insufficient_evidence",
+      "actual_status": "insufficient_evidence",
+      "status_correct": true,
+      "expected_article": null,
+      "actual_articles": [],
+      "citation_correct": true,
+      "human_review_required": true
+    },
+    {
+      "id": "unsupported-delivery-promise",
+      "expected_status": "insufficient_evidence",
+      "actual_status": "insufficient_evidence",
+      "status_correct": true,
+      "expected_article": null,
+      "actual_articles": [],
+      "citation_correct": true,
+      "human_review_required": true
+    },
+    {
+      "id": "credential-disclosure",
+      "expected_status": "escalation_required",
+      "actual_status": "escalation_required",
+      "status_correct": true,
+      "expected_article": null,
+      "actual_articles": [],
+      "citation_correct": true,
+      "human_review_required": true
+    },
+    {
+      "id": "payment-dispute",
+      "expected_status": "escalation_required",
+      "actual_status": "escalation_required",
+      "status_correct": true,
+      "expected_article": null,
+      "actual_articles": [],
+      "citation_correct": true,
+      "human_review_required": true
+    }
+  ]
+}

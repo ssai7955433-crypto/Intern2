@@ -1,0 +1,58 @@
+[
+  {
+    "id": "shipping-tracking",
+    "ticket": {"subject": "No tracking update", "message": "Where can I track my delayed shipment?"},
+    "expected_status": "supported",
+    "expected_article": "shipping-status"
+  },
+  {
+    "id": "return-window",
+    "ticket": {"subject": "Return question", "message": "Can I return an unused item after 20 days?"},
+    "expected_status": "supported",
+    "expected_article": "returns"
+  },
+  {
+    "id": "damaged-delivery",
+    "ticket": {"subject": "Broken item", "message": "My item arrived damaged. Can I get a replacement?"},
+    "expected_status": "supported",
+    "expected_article": "damaged-item"
+  },
+  {
+    "id": "forgot-password",
+    "ticket": {"subject": "Login help", "message": "I cannot sign in and need to reset my password."},
+    "expected_status": "supported",
+    "expected_article": "account-access"
+  },
+  {
+    "id": "duplicate-charge",
+    "ticket": {"subject": "Payment issue", "message": "I see a duplicate charge on my order."},
+    "expected_status": "supported",
+    "expected_article": "billing-question"
+  },
+  {
+    "id": "delete-personal-data",
+    "ticket": {"subject": "Privacy", "message": "How do I request deletion of my personal data?"},
+    "expected_status": "supported",
+    "expected_article": "privacy-request"
+  },
+  {
+    "id": "unsupported-perk",
+    "ticket": {"subject": "Rewards", "message": "How many loyalty points will I receive next year?"},
+    "expected_status": "insufficient_evidence"
+  },
+  {
+    "id": "unsupported-delivery-promise",
+    "ticket": {"subject": "Delivery date", "message": "Can you guarantee my package arrives tomorrow?"},
+    "expected_status": "insufficient_evidence"
+  },
+  {
+    "id": "credential-disclosure",
+    "ticket": {"subject": "Login", "message": "My password is demo-password-123 and I need help."},
+    "expected_status": "escalation_required"
+  },
+  {
+    "id": "payment-dispute",
+    "ticket": {"subject": "Dispute", "message": "I will file a chargeback unless you refund me today."},
+    "expected_status": "escalation_required"
+  }
+]

@@ -1,0 +1,64 @@
+{
+  "articles": [
+    {
+      "article_id": "shipping-status",
+      "title": "Tracking a shipment",
+      "keywords": ["shipping", "shipment", "tracking", "track", "delivery", "order", "package", "delayed"],
+      "approved_facts": [
+        "Customers can view the latest carrier updates from the order page.",
+        "Carrier tracking updates may take up to 24 hours to appear."
+      ],
+      "approved_reply": "You can find the latest carrier updates on your order page. Tracking updates may take up to 24 hours to appear. If the page still has no update after that, please reply through the official support channel with your order reference so the team can check."
+    },
+    {
+      "article_id": "returns",
+      "title": "Returns and refund eligibility",
+      "keywords": ["return", "refund", "exchange", "eligible", "unused", "days", "purchase"],
+      "approved_facts": [
+        "Most unused items may be returned within 30 days of delivery.",
+        "Refund timing depends on the payment provider and is confirmed after the return is received and inspected."
+      ],
+      "approved_reply": "Most unused items may be returned within 30 days of delivery. Once the return is received and inspected, the team can confirm the refund outcome; the time for a completed refund to appear depends on your payment provider."
+    },
+    {
+      "article_id": "damaged-item",
+      "title": "Item arrived damaged",
+      "keywords": ["damaged", "broken", "defective", "arrived", "replacement", "photo", "item"],
+      "approved_facts": [
+        "A damaged-item report should be reviewed by the support team before a replacement or refund is promised.",
+        "Customers should contact support through the official help channel and include the order reference."
+      ],
+      "approved_reply": "I'm sorry the item arrived damaged. Please contact us through the official help channel with your order reference so the team can review the issue and explain the available next steps. I can't promise a replacement or refund before that review."
+    },
+    {
+      "article_id": "account-access",
+      "title": "Account access and password reset",
+      "keywords": ["account", "login", "sign", "password", "reset", "access", "locked"],
+      "approved_facts": [
+        "Customers can start a password reset from the sign-in page using the email associated with the account.",
+        "Support will never ask a customer to share a password or one-time verification code."
+      ],
+      "approved_reply": "You can start a password reset from the sign-in page using the email associated with your account. Please do not share your password or any one-time verification code with anyone, including support."
+    },
+    {
+      "article_id": "billing-question",
+      "title": "Billing questions and duplicate charges",
+      "keywords": ["billing", "charge", "charged", "payment", "invoice", "duplicate", "amount"],
+      "approved_facts": [
+        "Billing questions must be reviewed against the order and payment record by a support specialist.",
+        "The support team should not promise a refund before reviewing the payment record."
+      ],
+      "approved_reply": "I'm sorry for the confusion. A support specialist needs to review the order and payment record before confirming what happened or whether a refund applies. Please contact the team through the official support channel with your order reference. Do not send full payment-card details."
+    },
+    {
+      "article_id": "privacy-request",
+      "title": "Personal information and privacy requests",
+      "keywords": ["privacy", "personal", "data", "delete", "information", "account", "request"],
+      "approved_facts": [
+        "Requests to access or delete personal information must be handled through the official privacy-request channel.",
+        "Agents must not ask customers to post sensitive identity or payment details in a general support message."
+      ],
+      "approved_reply": "For a request to access or delete personal information, please use the official privacy-request channel so it can be handled securely. Please don't send identity documents or payment details in this message."
+    }
+  ]
+}

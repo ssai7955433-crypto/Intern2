@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102a43">
+  <title>Support Copilot | Agent workspace</title>
+  <style>
+    :root { color-scheme: light; --ink:#102a43; --muted:#52667a; --line:#d9e2ec; --bg:#f3f6fa; --blue:#145da0; --green:#147d64; --amber:#8a5a00; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.5 "Segoe UI",sans-serif; }
+    header { background:var(--ink); color:white; padding:22px max(24px,calc((100% - 1120px)/2)); }
+    header p { margin:4px 0 0; color:#c8d6e5; }
+    main { max-width:1120px; margin:28px auto; padding:0 20px 42px; display:grid; grid-template-columns:minmax(0,1.05fr) minmax(340px,.95fr); gap:22px; }
+    section, .notice { background:white; border:1px solid var(--line); border-radius:14px; padding:22px; box-shadow:0 5px 16px #102a4309; }
+    h1,h2,h3,p { margin-top:0; } h1 { font-size:1.35rem; margin-bottom:0; } h2 { font-size:1.05rem; margin-bottom:16px; }
+    label { display:block; font-weight:650; margin:14px 0 6px; }
+    input,textarea { width:100%; border:1px solid #aab9c8; border-radius:8px; padding:11px 12px; font:inherit; color:var(--ink); background:#fff; }
+    textarea { resize:vertical; min-height:150px; } #context { min-height:76px; }
+    button { border:0; border-radius:8px; padding:10px 15px; font:650 15px "Segoe UI",sans-serif; cursor:pointer; }
+    button:disabled { opacity:.55; cursor:wait; } .primary { color:white; background:var(--blue); } .secondary { border:1px solid var(--line); color:var(--ink); background:white; }
+    .buttons { display:flex; flex-wrap:wrap; gap:9px; margin-top:14px; }
+    .hint,.muted { color:var(--muted); font-size:.9rem; } .notice { grid-column:1/-1; padding:14px 18px; color:#664d03; background:#fff9e8; }
+    #result { min-height:120px; } .empty { color:var(--muted); padding:24px 0; }
+    .badge { display:inline-block; padding:3px 9px; border-radius:100px; background:#e7f2fc; color:#124a76; font-size:.82rem; font-weight:700; }
+    .citation { border-left:3px solid var(--green); padding:8px 12px; margin:10px 0; background:#f2faf7; font-size:.9rem; }
+    .citation strong { display:block; margin-bottom:3px; } #message { margin-top:12px; font-weight:600; }
+    @media(max-width:780px) { main { grid-template-columns:1fr; margin-top:18px; } .notice { grid-column:auto; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Support Copilot</h1>
+    <p>Evidence-backed reply drafts for a human support agent</p>
+  </header>
+  <main>
+    <div class="notice"><strong>Demo workspace:</strong> use fictional information only. Drafts are not sent automatically, and ticket text is not saved by this app.</div>
+    <section aria-labelledby="ticket-title">
+      <h2 id="ticket-title">Ticket context</h2>
+      <form id="ticket-form">
+        <label for="subject">Ticket subject <span class="muted">(optional)</span></label>
+        <input id="subject" maxlength="200" placeholder="e.g. Package tracking has not updated">
+        <label for="ticket-message">Customer message</label>
+        <textarea id="ticket-message" maxlength="4000" required placeholder="Paste a fictional customer message"></textarea>
+        <label for="context">Additional context <span class="muted">(optional, no sensitive data)</span></label>
+        <textarea id="context" maxlength="2000" placeholder="Relevant order or product context, excluding private details"></textarea>
+        <div class="buttons"><button class="primary" id="draft-button" type="submit">Draft a reply</button></div>
+      </form>
+    </section>
+    <section aria-labelledby="draft-title">
+      <h2 id="draft-title">Draft and human review</h2>
+      <div id="result" aria-live="polite"><p class="empty">Enter a ticket to see its evidence-backed draft here.</p></div>
+      <label for="reply">Reply draft (editable)</label>
+      <textarea id="reply" maxlength="5000" placeholder="The draft will appear here for review"></textarea>
+      <div class="buttons">
+        <button class="primary review-button" data-decision="approved" type="button" disabled>Approve draft</button>
+        <button class="secondary review-button" data-decision="needs_edit" type="button" disabled>Needs edits</button>
+        <button class="secondary review-button" data-decision="escalated" type="button" disabled>Escalate</button>
+      </div>
+      <p id="message" role="status"></p>
+    </section>
+  </main>
+  <script>
+    const form = document.querySelector("#ticket-form");
+    const result = document.querySelector("#result");
+    const reply = document.querySelector("#reply");
+    const statusMessage = document.querySelector("#message");
+    const draftButton = document.querySelector("#draft-button");
+    const reviewButtons = [...document.querySelectorAll(".review-button")];
+    let latestDraft = null;
+
+    function element(tag, text, className) {
+      const node = document.createElement(tag);
+      node.textContent = text;
+      if (className) node.className = className;
+      return node;
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      statusMessage.textContent = "";
+      result.replaceChildren(element("p", "Preparing a grounded draft…", "muted"));
+      draftButton.disabled = true;
+      reviewButtons.forEach((button) => { button.disabled = true; });
+      latestDraft = null;
+      reply.value = "";
+      try {
+        const response = await fetch("/draft", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({
+            subject: document.querySelector("#subject").value,
+            message: document.querySelector("#ticket-message").value,
+            context: document.querySelector("#context").value
+          })
+        });
+        const body = await response.json();
+        if (!response.ok) throw new Error(body.detail || "Draft request failed");
+        latestDraft = body;
+        reply.value = body.reply;
+        result.replaceChildren();
+        result.append(element("span", body.status.replaceAll("_", " "), "badge"));
+        result.append(element("p", `Knowledge match: ${Math.round(body.match_score * 100)}% (heuristic, not a probability) · Human review required`));
+        result.append(element("p", body.next_step, "muted"));
+        body.quality_flags.forEach((flag) => result.append(element("p", `Quality check: ${flag.replaceAll("_", " ")}`, "muted")));
+        if (body.citations.length) {
+          result.append(element("h3", "Approved knowledge used"));
+          body.citations.forEach((citation) => {
+            const card = element("div", "", "citation");
+            card.append(element("strong", `${citation.title} · ${citation.article_id}`));
+            card.append(element("span", citation.excerpt));
+            result.append(card);
+          });
+        }
+        reviewButtons.forEach((button) => { button.disabled = false; });
+      } catch (error) {
+        result.replaceChildren(element("p", error.message));
+      } finally {
+        draftButton.disabled = false;
+      }
+    });
+
+    form.addEventListener("input", () => {
+      if (!latestDraft) return;
+      latestDraft = null;
+      reviewButtons.forEach((button) => { button.disabled = true; });
+      statusMessage.textContent = "Ticket context changed. Create a new draft before recording a review.";
+    });
+
+    reviewButtons.forEach((button) => button.addEventListener("click", async () => {
+      if (!latestDraft || !reply.value.trim()) return;
+      button.disabled = true;
+      try {
+        const response = await fetch("/review", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({decision: button.dataset.decision, reviewed_reply: reply.value})
+        });
+        const body = await response.json();
+        if (!response.ok) throw new Error(body.detail || "Review action failed");
+        statusMessage.textContent = body.message;
+      } catch (error) {
+        statusMessage.textContent = error.message;
+      } finally {
+        button.disabled = false;
+      }
+    }));
+  </script>
+</body>
+</html>
