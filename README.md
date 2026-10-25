@@ -30,16 +30,16 @@ The default template mode needs no API key or model download.
 
 ## Optional local Ollama generation
 
-Install and start [Ollama](https://ollama.com/download), then pull a local model, for example:
+Install and start [Ollama](https://ollama.com/download), then select a model shown by `ollama list`:
 
 ```powershell
-ollama pull qwen3:4b
+ollama list
 $env:SUPPORT_COPILOT_LLM_MODE = "ollama"
-$env:OLLAMA_MODEL = "qwen3:4b"
+$env:OLLAMA_MODEL = "llama3.2:latest"
 python -m uvicorn support_copilot.api:app --reload
 ```
 
-Optional settings: `OLLAMA_URL` (default `http://127.0.0.1:11434`) and `OLLAMA_MODEL` (default `qwen3:4b`). Provider errors are returned as HTTP 503. The LLM prompt requests a constrained JSON reply; malformed output is rejected. A human must still check every generated claim against the cited evidence.
+On this machine, Ollama 0.40.10 has `llama3.2:latest` installed (also listed as `llama3.2:3b`). Optional settings: `OLLAMA_URL` (default `http://127.0.0.1:11434`) and `OLLAMA_MODEL` (default `llama3.2:latest`). Provider errors are returned as HTTP 503. The LLM prompt requests a constrained JSON reply; malformed output is rejected. A human must still check every generated claim against the cited evidence.
 
 ## Example API request
 

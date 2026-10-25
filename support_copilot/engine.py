@@ -78,7 +78,7 @@ class SupportCopilot:
             raise ValueError(f"Could not load approved knowledge at {knowledge_path}: {exc}") from exc
 
         self.llm_mode = llm_mode or os.getenv("SUPPORT_COPILOT_LLM_MODE", "template")
-        self.ollama_model = ollama_model or os.getenv("OLLAMA_MODEL", "qwen3:4b")
+        self.ollama_model = ollama_model or os.getenv("OLLAMA_MODEL", "llama3.2:latest")
         self.ollama_url = (ollama_url or os.getenv("OLLAMA_URL", "http://127.0.0.1:11434")).rstrip("/")
         if self.llm_mode not in {"template", "ollama"}:
             raise ValueError("SUPPORT_COPILOT_LLM_MODE must be 'template' or 'ollama'")
